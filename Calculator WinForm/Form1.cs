@@ -49,9 +49,12 @@ namespace Calculator_WinForm
         private void oppress(object sender, EventArgs e)
         {
             Button button = (Button)sender;
+            if (ResultTxtBox.Text.EndsWith("*") || ResultTxtBox.Text.EndsWith("-") || ResultTxtBox.Text.EndsWith("/") || ResultTxtBox.Text.EndsWith("+"))
+            {
+                return;
+            }
             if (value != 0)
             {
-                Btnequal.PerformClick();
                 value = double.Parse(ResultTxtBox.Text);
 
                 text = button.Text;
@@ -71,47 +74,68 @@ namespace Calculator_WinForm
 
         private void op_result(object sender, EventArgs e)
         {
-            switch (text)
+            try
             {
-                case "+":
+                if (ResultTxtBox.Text.Length <= 7)
+                {
+                    switch (text)
                     {
-                        ResultTxtBox.Text = (value + Double.Parse(ResultTxtBox.Text)).ToString();
+                        case "+":
+                            {
+                                ResultTxtBox.Text = (value + Double.Parse(ResultTxtBox.Text)).ToString();
+                                value = 0;
 
-                        break;
-                    }
-                case "-":
-                    {
-                        ResultTxtBox.Text = (value - Double.Parse(ResultTxtBox.Text)).ToString();
+                                break;
+                            }
+                        case "-":
+                            {
+                                ResultTxtBox.Text = (value - Double.Parse(ResultTxtBox.Text)).ToString();
+                                value = 0;
 
-                        break;
-                    }
-                case "/":
-                    {
-                        if (ResultTxtBox.Text != "0")
-                        {
-                            ResultTxtBox.Text = (value / Double.Parse(ResultTxtBox.Text)).ToString();
-                        }
-                        else
-                        {
-                            MessageBox.Show("No divide by zero");
-                        }
-                        break;
-                    }
-                case "*":
-                    {
-                        ResultTxtBox.Text = (value * Double.Parse(ResultTxtBox.Text)).ToString();
+                                break;
+                            }
+                        case "/":
+                            {
+                                if (ResultTxtBox.Text != "0")
+                                {
+                                    ResultTxtBox.Text = (value / Double.Parse(ResultTxtBox.Text)).ToString();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Can not  divide by zero");
+                                }
+                                value = 0;
+                                break;
+                            }
+                        case "*":
+                            {
+                                ResultTxtBox.Text = (value * Double.Parse(ResultTxtBox.Text)).ToString();
+                                value = 0;
 
-                        break;
-                    }
-                default:
-                    {
+                                break;
+                            }
+                        default:
+                            {
 
-                        break;
+
+                                break;
+                            }
                     }
+                    value = double.Parse(ResultTxtBox.Text);
+                    label1.Text = "";
+                    operatorpress = false;
+                }
+                else
+                {
+                    MessageBox.Show("Number is very High");
+                }
             }
-            value = double.Parse(ResultTxtBox.Text);
-            label1.Text = "";
-            operatorpress = false;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+
+            }
+
         }
 
         private void btnclear_Click(object sender, EventArgs e)
@@ -129,6 +153,19 @@ namespace Calculator_WinForm
                 ResultTxtBox.Text = ResultTxtBox.Text.Remove(ResultTxtBox.Text.Length - 1, 1);
             }
 
+        }
+
+        private void Btnminus_Click(object sender, EventArgs e)
+        {
+            if ((double.Parse(ResultTxtBox.Text)) >= 0)
+            {
+                ResultTxtBox.Text = (System.Math.Abs(double.Parse(ResultTxtBox.Text)) * (-1)).ToString();
+            }
+            else
+            {
+                ResultTxtBox.Text = (System.Math.Abs(double.Parse(ResultTxtBox.Text)) * (1)).ToString();
+
+            }
         }
     }
 }

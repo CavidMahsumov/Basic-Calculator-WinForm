@@ -147,7 +147,7 @@ namespace Calculator_WinForm
             this.Btnminus.TabIndex = 7;
             this.Btnminus.Text = "+/-";
             this.Btnminus.UseVisualStyleBackColor = false;
-            this.Btnminus.Click += new System.EventHandler(this.NumbersClick);
+            this.Btnminus.Click += new System.EventHandler(this.Btnminus_Click);
             // 
             // Btn0
             // 
